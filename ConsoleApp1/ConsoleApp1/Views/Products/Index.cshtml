@@ -1,0 +1,72 @@
+﻿@model List<ConsoleApp1.Models.Product>
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<h1>🐾 PAMPERED PETS</h1>
+
+<p>Available Pet Products</p>
+
+<div asp-validation-summary="All" class="text-danger"></div>
+
+<div class="row">
+    @foreach (var product in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+
+                    <h5 class="card-title">@product.Name</h5>
+
+                    <p class="card-text">
+                        Price:
+                        <strong>₱@product.Price.ToString("N2")</strong>
+                    </p>
+
+                    @if (product.StockQuantity == 0)
+                    {
+                        <p class="text-danger">
+                            <strong>OUT OF STOCK</strong>
+                        </p>
+                    }
+                    else
+                    {
+                        <p class="text-success">
+                            Stock: @product.StockQuantity
+                        </p>
+
+                        <form asp-controller="Products"
+                              asp-action="AddToCart"
+                              method="post">
+
+                            <input type="hidden"
+                                   name="ProductId"
+                                   value="@product.Id" />
+
+                            <label>Quantity:</label>
+
+                            <input type="number"
+                                   name="Quantity"
+                                   value="1"
+                                   min="1"
+                                   max="@product.StockQuantity"
+                                   class="form-control mb-2" />
+
+                            <button type="submit"
+                                    class="btn btn-primary">
+                                Add to Cart
+                            </button>
+
+                        </form>
+                    }
+                    <a asp-controller="Cart"
+                       asp-action="Index"
+                       class="btn btn-success mt-3">
+                        🛒 View Cart
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

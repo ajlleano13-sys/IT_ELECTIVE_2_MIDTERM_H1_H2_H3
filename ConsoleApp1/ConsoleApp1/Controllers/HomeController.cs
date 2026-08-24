@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using ConsoleApp1.Models;
+using ConsoleApp1.Repositories;
 
 namespace ConsoleApp1.Controllers;
 
@@ -8,7 +9,8 @@ public class HomeController : Controller
 {
     public IActionResult Index()
     {
-        return View();
+        var products = ProductRepository.GetAll();
+        return View(products);
     }
 
     public IActionResult Privacy()

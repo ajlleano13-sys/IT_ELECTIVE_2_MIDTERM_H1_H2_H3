@@ -1,8 +1,72 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<ConsoleApp1.Models.Product>
+
+@{
+    ViewData["Title"] = "Store Catalog";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+<div class="bg-primary text-white p-4 rounded-3 shadow-sm mb-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h1 class="fw-bold mb-1"><i class="bi bi-shop me-2"></i> Point of Sale Catalog</h1>
+            <p class="mb-0 opacity-75">Select items below to add them to the customer's cart.</p>
+        </div>
+        <a asp-controller="Cart" asp-action="Index" class="btn btn-light btn-lg fw-bold text-primary shadow-sm">
+            <i class="bi bi-cart-fill me-2"></i>View Cart
+        </a>
+    </div>
+</div>
+
+
+<div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
+    @foreach (var item in Model)
+    {
+        bool isOutOfStock = item.StockQuantity <= 0;
+
+        <div class="col">
+            <div class="card h-100 border-0 shadow-sm rounded-3 @(isOutOfStock ? "bg-light opacity-75" : "")">
+
+                <div class="card-body d-flex flex-column p-4">
+             
+                    <h5 class="card-title fw-bold text-dark mb-2">@item.Name</h5>
+
+               
+                    <div class="fs-4 fw-bold text-success mb-3">
+                        @item.Price.ToString("C")
+                    </div>
+
+                    <div class="mb-4">
+                        @if (isOutOfStock)
+                        {
+                            <span class="badge bg-danger px-3 py-2 rounded-pill">Out of Stock</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-success bg-opacity-10 text-success border border-success px-3 py-2 rounded-pill">
+                                In Stock: @item.StockQuantity
+                            </span>
+                        }
+                    </div>
+
+     
+                    <div class="mt-auto">
+                        <form asp-controller="Cart" asp-action="AddToCart" method="post">
+                            <input type="hidden" name="ProductId" value="@item.Id" />
+
+                            <div class="input-group mb-2">
+                                <span class="input-group-text bg-white">Qty</span>
+                                <input type="number" name="Quantity" value="1" min="1" max="@item.StockQuantity"
+                                       class="form-control text-center fw-bold" @(isOutOfStock ? "disabled" : "") />
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold" @(isOutOfStock ? "disabled" : "")>
+                                <i class="bi bi-cart-plus me-1"></i> Add to Cart
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    }
 </div>

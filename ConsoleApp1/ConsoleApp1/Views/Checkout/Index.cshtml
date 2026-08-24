@@ -1,0 +1,28 @@
+﻿@model ConsoleApp1.Models.DTOs.CheckoutFormDTO
+
+<h2>Checkout</h2>
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="ProcessPayment" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group mb-3">
+                <label asp-for="CustomerName" class="control-label">Customer Name *</label>
+                <input asp-for="CustomerName" class="form-control" />
+                <span asp-validation-for="CustomerName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="CustomerEmail" class="control-label">Customer Email (Optional)</label>
+                <input asp-for="CustomerEmail" class="form-control" />
+                <span asp-validation-for="CustomerEmail" class="text-danger"></span>
+            </div>
+
+            <h4>Total Amount: @ViewBag.CartTotal.ToString("C")</h4>
+
+            <button type="submit" class="btn btn-success mt-3">Confirm & Complete Payment</button>
+            <a asp-controller="Cart" asp-action="Index" class="btn btn-secondary mt-3">Back to Cart</a>
+        </form>
+    </div>
+</div>

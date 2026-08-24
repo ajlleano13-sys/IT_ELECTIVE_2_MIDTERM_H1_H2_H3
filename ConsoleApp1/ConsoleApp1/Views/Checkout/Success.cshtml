@@ -1,0 +1,15 @@
+﻿@model ConsoleApp1.Models.Transaction
+
+<div class="alert alert-success mt-4 shadow-sm p-4 rounded-3">
+    <h2 class="fw-bold"><i class="bi bi-check-circle-fill me-2"></i>Transaction Successful!</h2>
+    <hr />
+    <p>Transaction ID: <strong>@Model.TransactionId</strong></p>
+    <p>Customer: <strong>@Model.CustomerName</strong></p>
+    <p>Date: <strong>@Model.Date.ToString("g")</strong></p>
+    <p class="fs-4">Total Paid: <strong class="text-success">@Model.TotalAmount.ToString("C")</strong></p>
+</div>
+
+<!-- PALITAN ANG ASP-CONTROLLER PATUNGONG "Home" -->
+<a asp-controller="Home" asp-action="Index" class="btn btn-primary btn-lg mt-2 fw-semibold">
+    <i class="bi bi-arrow-left me-1"></i> Back to Store
+</a>
